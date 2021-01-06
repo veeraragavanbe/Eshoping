@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+
+</head>
+
+<body>
+
+    <p> Name: <input type="text" name="name" id="name"> </p>
+
+    <p>RollNo: <input type="text" name="roll" id="roll"></p>
+    <p>Email<input type="text" name="email" id="email"></p>
+    <p>mobile: <input type="text" name="mobile" id="mobile"></p>
+
+    <button id="insert">Insert</button>
+    <button id="select">Select</button>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-database.js"></script>
+
+    <script id="MainScript">
+        var firebaseConfig = {
+            apiKey: "AIzaSyCF1qURBvj2zQ7VGToziIakI8_nGfc5Lgg",
+            authDomain: "contact-form-6ed5f.firebaseapp.com",
+            databaseURL: "https://contact-form-6ed5f.firebaseio.com",
+            projectId: "contact-form-6ed5f",
+            storageBucket: "contact-form-6ed5f.appspot.com",
+            messagingSenderId: "1091951892832",
+            appId: "1:1091951892832:web:85bd350c749dadf11e2605",
+            measurementId: "G-SCC9REY4VZ"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+
+
+        var name, roll, email, mobile;
+
+        function Ready() {
+            name = document.getElementById('name').value;
+            roll = document.getElementById('roll').value;
+            email = document.getElementById('email').value;
+            mobile = document.getElementById('mobile').value;
+        }
+
+        document.getElementById('insert').onclick = function() {
+            Ready();
+            firebase.database().ref('student/' + roll).set({
+                NameOfStudent: name,
+                roll: roll,
+                Email: email,
+                Mobile: mobile
+            });
+        }
+
+        document.getElementById("select").onclick = function() {
+            Ready();
+            firebase.database().ref('student/' + roll).on('value', function(snapshot) {
+                document.getElementById('name').value = snapshot.val().NameOfStudent;
+                document.getElementById('email').value = snapshot.val().Email;
+                document.getElementById('mobile').value = snapshot.val().Mobile;
+            })
+        }
+    </script>
+
+</body>
+
+</html>
